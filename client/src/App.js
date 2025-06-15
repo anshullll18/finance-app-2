@@ -36,6 +36,7 @@ function App() {
   });
   const [editId, setEditId] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
+  const [categoryFilter, setCategoryFilter] = useState("All");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -169,11 +170,19 @@ function App() {
     setDateRange({ ...dateRange, [name]: value });
   };
 
+  const uniqueCategories = Array.from(
+    new Set(transactions.map((t) => t.category.toLowerCase().trim()))
+  );
+
   const filteredTransactions = transactions.filter((t) => {
     const date = new Date(t.date);
     const start = dateRange.start ? new Date(dateRange.start) : new Date(0);
     const end = dateRange.end ? new Date(dateRange.end) : new Date();
-    return date >= start && date <= end;
+    const matchesDate = date >= start && date <= end;
+    const matchesCategory =
+      categoryFilter === "All" ||
+      t.category.toLowerCase().trim() === categoryFilter;
+    return matchesDate && matchesCategory;
   });
 
   const startEditTransaction = (transaction) => {
@@ -337,6 +346,20 @@ function App() {
                 Export CSV
               </button>
             </div>
+          </div>
+
+          <div className="category-filter">
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+            >
+              <option value="All">All Categories</option>
+              {uniqueCategories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="date-filter">

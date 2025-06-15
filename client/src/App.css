@@ -428,3 +428,23 @@ header button {
   font-size: 1.2rem;
   font-weight: 700;
 }
+
+.category-filter {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 1.5rem 1rem 1.5rem;
+}
+
+.category-filter select {
+  padding: 10px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.category-filter select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
