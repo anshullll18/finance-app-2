@@ -21,6 +21,7 @@ function App() {
   const [stats, setStats] = useState({});
   const [monthlyStats, setMonthlyStats] = useState({});
   const [showAllMonths, setShowAllMonths] = useState(false);
+  const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [showForm, setShowForm] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -142,6 +143,18 @@ function App() {
   const toggleShowAllMonths = () => {
     setShowAllMonths(!showAllMonths);
   };
+
+  const handleDateRangeChange = (e) => {
+    const { name, value } = e.target;
+    setDateRange({ ...dateRange, [name]: value });
+  };
+
+  const filteredTransactions = transactions.filter((t) => {
+    const date = new Date(t.date);
+    const start = dateRange.start ? new Date(dateRange.start) : new Date(0);
+    const end = dateRange.end ? new Date(dateRange.end) : new Date();
+    return date >= start && date <= end;
+  });
 
   if (!user) {
     return (
@@ -277,6 +290,23 @@ function App() {
             </div>
           </div>
 
+          <div className="date-filter">
+            <input
+              type="date"
+              name="start"
+              value={dateRange.start}
+              onChange={handleDateRangeChange}
+              placeholder="Start Date"
+            />
+            <input
+              type="date"
+              name="end"
+              value={dateRange.end}
+              onChange={handleDateRangeChange}
+              placeholder="End Date"
+            />
+          </div>
+
           {showForm && (
             <form onSubmit={handleTransaction} className="transaction-form">
               <select
@@ -320,7 +350,7 @@ function App() {
           )}
 
           <div className="transactions-list">
-            {transactions.map((transaction) => (
+            {filteredTransactions.map((transaction) => (
               <div key={transaction._id} className="transaction-item">
                 <div>
                   <strong>{transaction.category}</strong>

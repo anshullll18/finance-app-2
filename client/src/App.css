@@ -335,3 +335,22 @@ header button {
 .show-more-button:hover {
   background: #2c5aa0;
 }
+
+.date-filter {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0 1.5rem;
+}
+
+.date-filter input {
+  padding: 10px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.date-filter input:focus {
+  outline: none;
+  border-color: #3182ce;
+}
