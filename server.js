@@ -127,6 +127,22 @@ app.post("/api/transactions", auth, async (req, res) => {
   }
 });
 
+// Edit Transaction
+app.patch("/api/transactions/:id", auth, async (req, res) => {
+  try {
+    const { type, amount, category, description } = req.body;
+    const updated = await Transaction.findOneAndUpdate(
+      { _id: req.params.id, userId: req.userId },
+      { type, amount, category, description },
+      { new: true }
+    );
+    if (!updated) return res.status(404).json({ error: "Transaction not found" });
+    res.json(updated);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 app.delete("/api/transactions/:id", auth, async (req, res) => {
   try {
     await Transaction.findOneAndDelete({

@@ -34,6 +34,7 @@ function App() {
     category: "",
     description: "",
   });
+  const [editId, setEditId] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -88,12 +89,21 @@ function App() {
   const handleTransaction = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/transactions`, {
-        type: formData.type,
-        amount: parseFloat(formData.amount),
-        category: formData.category.toLowerCase().trim(),
-        description: formData.description,
-      });
+      if (editId) {
+        await axios.patch(`${API_URL}/transactions/${editId}`, {
+          type: formData.type,
+          amount: parseFloat(formData.amount),
+          category: formData.category.toLowerCase().trim(),
+          description: formData.description,
+        });
+      } else {
+        await axios.post(`${API_URL}/transactions`, {
+          type: formData.type,
+          amount: parseFloat(formData.amount),
+          category: formData.category.toLowerCase().trim(),
+          description: formData.description,
+        });
+      }
       fetchUserData();
       setShowForm(false);
       setFormData({
@@ -102,6 +112,7 @@ function App() {
         category: "",
         description: "",
       });
+      setEditId(null);
     } catch (error) {
       alert(error.response?.data?.error || "Transaction failed");
     }
@@ -164,6 +175,17 @@ function App() {
     const end = dateRange.end ? new Date(dateRange.end) : new Date();
     return date >= start && date <= end;
   });
+
+  const startEditTransaction = (transaction) => {
+    setEditId(transaction._id);
+    setFormData({
+      type: transaction.type,
+      amount: transaction.amount,
+      category: transaction.category,
+      description: transaction.description,
+    });
+    setShowForm(true);
+  };
 
   if (!user) {
     return (
@@ -395,6 +417,12 @@ function App() {
                     {transaction.type === "income" ? "+" : "-"}$
                     {transaction.amount.toFixed(2)}
                   </span>
+                  <button
+                    onClick={() => startEditTransaction(transaction)}
+                    style={{ marginRight: "8px" }}
+                  >
+                    Edit
+                  </button>
                   <button onClick={() => deleteTransaction(transaction._id)}>
                     Delete
                   </button>
