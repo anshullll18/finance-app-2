@@ -22,6 +22,7 @@ function App() {
   const [monthlyStats, setMonthlyStats] = useState({});
   const [showAllMonths, setShowAllMonths] = useState(false);
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
+  const [categorySummary, setCategorySummary] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -33,6 +34,7 @@ function App() {
     category: "",
     description: "",
   });
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -52,6 +54,13 @@ function App() {
       setTransactions(transRes.data);
       setStats(statsRes.data);
       setMonthlyStats(monthlyRes.data);
+      const summary = transRes.data.reduce((acc, t) => {
+        if (t.type === "expense") {
+          acc[t.category] = (acc[t.category] || 0) + t.amount;
+        }
+        return acc;
+      }, {});
+      setCategorySummary(summary);
       setUser(JSON.parse(localStorage.getItem("user")));
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -82,7 +91,7 @@ function App() {
       await axios.post(`${API_URL}/transactions`, {
         type: formData.type,
         amount: parseFloat(formData.amount),
-        category: formData.category,
+        category: formData.category.toLowerCase().trim(),
         description: formData.description,
       });
       fetchUserData();
@@ -201,11 +210,17 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className={`app${darkMode ? " dark" : ""}`}>
       <header>
         <h1>Finance Tracker</h1>
         <div>
           <span>Welcome, {user.name}</span>
+          <button
+            onClick={() => setDarkMode((dm) => !dm)}
+            style={{ marginRight: "10px" }}
+          >
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
           <button onClick={logout}>Logout</button>
         </div>
       </header>
@@ -225,6 +240,18 @@ function App() {
           <div className="stat-card">
             <h3>Expenses</h3>
             <p className="negative">${stats.totalExpense?.toFixed(2)}</p>
+          </div>
+        </div>
+
+        <div className="category-summary">
+          <h2>Spending by Category</h2>
+          <div className="category-summary-grid">
+            {Object.entries(categorySummary).map(([category, amount]) => (
+              <div key={category} className="category-summary-card">
+                <h3>{category}</h3>
+                <p className="negative">${amount.toFixed(2)}</p>
+              </div>
+            ))}
           </div>
         </div>
 

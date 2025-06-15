@@ -4,10 +4,21 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg: #f5f7fa;
+  --text: #333;
+  --card-bg: #fff;
+  --card-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  --primary: #3182ce;
+  --primary-dark: #2c5aa0;
+  --positive: #38a169;
+  --negative: #e53e3e;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f5f7fa;
-  color: #333;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .auth-container {
@@ -20,10 +31,10 @@ body {
 }
 
 .auth-form {
-  background: white;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   width: 100%;
   max-width: 400px;
 }
@@ -31,7 +42,7 @@ body {
 .auth-form h2 {
   margin-bottom: 1.5rem;
   text-align: center;
-  color: #2d3748;
+  color: var(--text);
 }
 
 .auth-form input {
@@ -42,18 +53,20 @@ body {
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .auth-form input:focus {
   outline: none;
-  border-color: #3182ce;
+  border-color: var(--primary);
 }
 
 .auth-form button {
   width: 100%;
   padding: 12px;
-  background: #3182ce;
-  color: white;
+  background: var(--primary);
+  color: var(--text);
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -63,31 +76,44 @@ body {
 }
 
 .auth-form button:hover {
-  background: #2c5aa0;
+  background: var(--primary-dark);
 }
 
 .auth-form p {
   text-align: center;
   margin-top: 1rem;
-  color: #3182ce;
+  color: var(--primary);
   cursor: pointer;
 }
 
 .app {
   min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.dark {
+  --bg: #181a1b;
+  --text: #f5f7fa;
+  --card-bg: #23272a;
+  --card-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+  --primary: #90cdf4;
+  --primary-dark: #4299e1;
+  --positive: #68d391;
+  --negative: #fc8181;
 }
 
 header {
-  background: white;
+  background: var(--card-bg);
   padding: 1rem 2rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 header h1 {
-  color: #2d3748;
+  color: var(--text);
   font-size: 1.8rem;
 }
 
@@ -120,15 +146,15 @@ header button {
 }
 
 .stat-card {
-  background: white;
+  background: var(--card-bg);
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   text-align: center;
 }
 
 .stat-card h3 {
-  color: #718096;
+  color: var(--text);
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -141,11 +167,11 @@ header button {
 }
 
 .positive {
-  color: #38a169;
+  color: var(--positive);
 }
 
 .negative {
-  color: #e53e3e;
+  color: var(--negative);
 }
 
 .charts {
@@ -155,22 +181,22 @@ header button {
 }
 
 .chart {
-  background: white;
+  background: var(--card-bg);
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
 }
 
 .chart h3 {
   margin-bottom: 1rem;
   text-align: center;
-  color: #2d3748;
+  color: var(--text);
 }
 
 .transactions-section {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   overflow: hidden;
 }
 
@@ -188,17 +214,21 @@ header button {
 }
 
 .section-header h2 {
-  color: #2d3748;
+  color: var(--text);
 }
 
 .section-header button {
-  background: #3182ce;
-  color: white;
+  background: var(--primary);
+  color: var(--text);
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+}
+
+.section-header button:hover {
+  background: var(--primary-dark);
 }
 
 .transaction-form {
@@ -215,16 +245,22 @@ header button {
   border: 2px solid #e2e8f0;
   border-radius: 6px;
   font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .transaction-form button {
-  background: #38a169;
-  color: white;
+  background: var(--primary);
+  color: var(--text);
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
+}
+
+.transaction-form button:hover {
+  background: var(--primary-dark);
 }
 
 .transactions-list {
@@ -246,12 +282,12 @@ header button {
 }
 
 .transaction-item strong {
-  color: #2d3748;
+  color: var(--text);
   font-size: 1.1rem;
 }
 
 .transaction-item p {
-  color: #718096;
+  color: var(--text);
   margin: 0.25rem 0;
 }
 
@@ -273,7 +309,7 @@ header button {
 }
 
 .transaction-amount button {
-  background: #e53e3e;
+  background: var(--negative);
   color: white;
   border: none;
   padding: 4px 8px;
@@ -287,7 +323,7 @@ header button {
 }
 
 .monthly-stats h2 {
-  color: #2d3748;
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -298,15 +334,15 @@ header button {
 }
 
 .monthly-stat-card {
-  background: white;
+  background: var(--card-bg);
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   text-align: center;
 }
 
 .monthly-stat-card h3 {
-  color: #718096;
+  color: var(--text);
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -319,8 +355,8 @@ header button {
 }
 
 .show-more-button {
-  background: #3182ce;
-  color: white;
+  background: var(--primary);
+  color: var(--text);
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
@@ -333,7 +369,7 @@ header button {
 }
 
 .show-more-button:hover {
-  background: #2c5aa0;
+  background: var(--primary-dark);
 }
 
 .date-filter {
@@ -348,9 +384,47 @@ header button {
   border: 2px solid #e2e8f0;
   border-radius: 6px;
   font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .date-filter input:focus {
   outline: none;
-  border-color: #3182ce;
+  border-color: var(--primary);
+}
+
+.category-summary {
+  margin-bottom: 2rem;
+}
+
+.category-summary h2 {
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.category-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.category-summary-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  text-align: center;
+}
+
+.category-summary-card h3 {
+  color: var(--text);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.category-summary-card p {
+  font-size: 1.2rem;
+  font-weight: 700;
 }
