@@ -20,6 +20,7 @@ function App() {
   const [transactions, setTransactions] = useState([]);
   const [stats, setStats] = useState({});
   const [monthlyStats, setMonthlyStats] = useState({});
+  const [showAllMonths, setShowAllMonths] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -138,6 +139,10 @@ function App() {
     link.click();
   };
 
+  const toggleShowAllMonths = () => {
+    setShowAllMonths(!showAllMonths);
+  };
+
   if (!user) {
     return (
       <div className="auth-container">
@@ -213,14 +218,23 @@ function App() {
         <div className="monthly-stats">
           <h2>Monthly Stats</h2>
           <div className="monthly-stats-grid">
-            {Object.entries(monthlyStats).map(([month, data]) => (
-              <div key={month} className="monthly-stat-card">
-                <h3>{month}</h3>
-                <p className="positive">Income: ${data.income.toFixed(2)}</p>
-                <p className="negative">Expense: ${data.expense.toFixed(2)}</p>
-              </div>
-            ))}
+            {Object.entries(monthlyStats)
+              .slice(0, showAllMonths ? undefined : 6)
+              .map(([month, data]) => (
+                <div key={month} className="monthly-stat-card">
+                  <h3>{month}</h3>
+                  <p className="positive">Income: ${data.income.toFixed(2)}</p>
+                  <p className="negative">
+                    Expense: ${data.expense.toFixed(2)}
+                  </p>
+                </div>
+              ))}
           </div>
+          {Object.keys(monthlyStats).length > 6 && (
+            <button onClick={toggleShowAllMonths} className="show-more-button">
+              {showAllMonths ? "Show Less" : "Show More"}
+            </button>
+          )}
         </div>
 
         <div className="charts">
